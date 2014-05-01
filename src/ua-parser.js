@@ -25,7 +25,6 @@
         TYPE        = 'type',
         VENDOR      = 'vendor',
         VERSION     = 'version',
-        ARCHITECTURE= 'architecture',
         CONSOLE     = 'console',
         MOBILE      = 'mobile',
         TABLET      = 'tablet';
@@ -281,29 +280,6 @@
             ], [NAME, VERSION, MAJOR]
         ],
 
-        cpu : [[
-
-            /(?:(amd|x(?:(?:86|64)[_-])?|wow|win)64)[;\)]/i                     // AMD64
-            ], [[ARCHITECTURE, 'amd64']], [
-
-            /((?:i[346]|x)86)[;\)]/i                                            // IA32
-            ], [[ARCHITECTURE, 'ia32']], [
-
-            // PocketPC mistakenly identified as PowerPC
-            /windows\s(ce|mobile);\sppc;/i
-            ], [[ARCHITECTURE, 'arm']], [
-
-            /((?:ppc|powerpc)(?:64)?)(?:\smac|;|\))/i                           // PowerPC
-            ], [[ARCHITECTURE, /ower/, '', util.lowerize]], [
-
-            /(sun4\w)[;\)]/i                                                    // SPARC
-            ], [[ARCHITECTURE, 'sparc']], [
-
-            /(ia64(?=;)|68k(?=\))|arm(?=v\d+;)|(?:irix|mips|sparc)(?:64)?(?=;)|pa-risc)/i
-                                                                                // IA64, 68K, ARM, IRIX, MIPS, SPARC, PA-RISC
-            ], [ARCHITECTURE, util.lowerize]
-        ],
-
         device : [[
 
             /\((ipad|playbook);[\w\s\);-]+(rim|apple)/i                         // iPad/PlayBook
@@ -473,9 +449,6 @@
         this.getBrowser = function () {
             return mapper.rgx.apply(this, regexes.browser);
         };
-        this.getCPU = function () {
-            return mapper.rgx.apply(this, regexes.cpu);
-        };
         this.getDevice = function () {
             return mapper.rgx.apply(this, regexes.device);
         };
@@ -491,8 +464,7 @@
                 browser : this.getBrowser(),
                 engine  : this.getEngine(),
                 os      : this.getOS(),
-                device  : this.getDevice(),
-                cpu     : this.getCPU()
+                device  : this.getDevice()
             };
         };
         this.getUA = function () {
@@ -510,7 +482,6 @@
     // Export
     //////////
 
-
     // check js environment
     if (typeof(exports) !== UNDEF_TYPE) {
         // nodejs env
@@ -521,28 +492,6 @@
     } else {
         // browser env
         window.UAParser = UAParser;
-        // requirejs env (optional)
-        if (typeof(define) === FUNC_TYPE && define.amd) {
-            define(function () {
-                return UAParser;
-            });
-        }
-        // jQuery specific (optional)
-        if (typeof(window.jQuery) !== UNDEF_TYPE) {
-            var $ = window.jQuery;
-            var parser = new UAParser();
-            $.ua = parser.getResult();
-            $.ua.get = function() {
-                return parser.getUA();
-            };
-            $.ua.set = function (uastring) {
-                parser.setUA(uastring);
-                var result = parser.getResult();
-                for (var prop in result) {
-                    $.ua[prop] = result[prop];
-                }
-            };
-        }
     }
 
 })(this);
