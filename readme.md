@@ -3,7 +3,7 @@
 Lightweight JavaScript-based User-Agent string parser for browsers.
 * Forked from : https://github.com/faisalman/ua-parser-js
 
-[![Build Status](https://travis-ci.org/alonkad/ua-parser-js.png?branch=master)](https://travis-ci.org/alonkad/ua-parser-js)
+[![Build Status](https://travis-ci.org/Alonkad/ua-parser-js.svg?branch=master)](https://travis-ci.org/Alonkad/ua-parser-js)
 
 ## Features
 
