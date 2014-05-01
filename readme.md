@@ -1,18 +1,14 @@
 # UAParser.js
 
-Lightweight JavaScript-based User-Agent string parser. Supports browser & node.js environment. Also available as Component package, Bower package, jQuery.ua, & AMD module
+Lightweight JavaScript-based User-Agent string parser for browsers.
+* Forked from : https://github.com/faisalman/ua-parser-js
 
-[![Build Status](https://travis-ci.org/faisalman/ua-parser-js.png?branch=master)](https://travis-ci.org/faisalman/ua-parser-js)
-
-* Author    : Faisalman <<fyzlman@gmail.com>>
-* Demo      : http://faisalman.github.com/ua-parser-js
-* Source    : https://github.com/faisalman/ua-parser-js
+[![Build Status](https://travis-ci.org/faisalman/ua-parser-js.png?branch=master)](https://travis-ci.org/alonkad/ua-parser-js)
 
 ## Features
 
-Extract detailed type of web browser, layout engine, operating system, cpu architecture, and device purely from user-agent string with relatively lightweight footprint (~7KB minified / ~3KB gzipped). Written in vanilla js, which means it doesn't depends on any other library.
+Extract detailed type of web browser, layout engine, operating system, and device purely from user-agent string with relatively lightweight footprint. Written in vanilla js, which means it doesn't depends on any other library.
 
-![It's over 9000](https://pbs.twimg.com/media/A9LpEG6CIAA5VrT.jpg)
 
 ## Methods
 
@@ -74,20 +70,8 @@ Windows [Phone/Mobile], Zenwalk
 # 'os.version' determined dynamically
 ```
 
-* `getCPU()`
-    * returns `{ architecture: '' }`
-
-```
-# Possible 'cpu.architecture'
-68k, amd64, arm, ia32, ia64, irix, irix64, mips, mips64, pa-risc, ppc, sparc, sparc64
-```
-
 * `getResult()`
-    * returns `{ ua: '', browser: {}, cpu: {}, device: {}, engine: {}, os: {} }`
-* `getUA()`
-    * returns UA string of current instance
-* `setUA(uastring)`
-    * set & parse UA string
+    * returns `{ ua: '', browser: {}, device: {}, engine: {}, os: {} }`
 
 ## Example
 
@@ -123,9 +107,6 @@ Windows [Phone/Mobile], Zenwalk
                 model: "",
                 type: "",
                 vendor: ""
-            },
-            cpu: {
-                architecture: ""
             }
         }
     */
@@ -143,7 +124,6 @@ Windows [Phone/Mobile], Zenwalk
     console.log(result.os);             // {name: "Ubuntu", version: "11.10"}
     console.log(result.os.version);     // "11.10"
     console.log(result.engine.name);    // "WebKit"
-    console.log(result.cpu.architecture);   // "amd64"
 
     // do some other tests
     var uastring2 = "Mozilla/5.0 (compatible; Konqueror/4.1; OpenBSD) KHTML/4.1.4 (like Gecko)";
@@ -162,98 +142,3 @@ Windows [Phone/Mobile], Zenwalk
 </body>
 </html>
 ```
-
-### Using node.js
-
-```sh
-$ npm install ua-parser-js
-```
-
-```js
-var UAParser = require('ua-parser-js');
-var parser = new UAParser();
-var ua = request.headers['user-agent'];     // user-agent header from an HTTP request
-console.log(parser.setUA(ua).getResult());
-```
-
-### Using requirejs
-
-```js
-require(['ua-parser'], function(UAParser) {
-    var parser = new UAParser();
-    console.log(parser.getResult());
-});
-```
-
-### Using component
-
-```sh
-$ component install faisalman/ua-parser-js
-```
-
-```js
-var UAParser = require('ua-parser-js');
-var parser = new UAParser();
-console.log(parser.getResult());
-```
-
-### Using bower
-
-```sh
-$ bower install ua-parser-js
-```
-
-### Using jQuery.ua
-
-Although written in vanilla js (which means it doesn't depends on jQuery), this library will automatically detect if jQuery is present and create `$.ua` object based on browser's user-agent (although in case you need, `window.UAParser` constructor is still present). To get/set user-agent you can use: `$.ua.get()` / `$.ua.set(uastring)`. 
-
-```js
-// In browser with default user-agent: 'Mozilla/5.0 (Linux; U; Android 2.3.4; en-us; Sprint APA7373KT Build/GRJ22) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0':
-
-// Do some tests
-console.log($.ua.device);           // {vendor: "HTC", model: "Evo Shift 4G", type: "mobile"}
-console.log($.ua.os);               // {name: "Android", version: "2.3.4"}
-console.log($.ua.os.name);          // "Android"
-console.log($.ua.get());            // "Mozilla/5.0 (Linux; U; Android 2.3.4; en-us; Sprint APA7373KT Build/GRJ22) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0"
-
-// reset to custom user-agent
-$.ua.set('Mozilla/5.0 (Linux; U; Android 3.0.1; en-us; Xoom Build/HWI69) AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13');
-
-// Test again
-console.log($.ua.browser.name);     // "Safari"
-console.log($.ua.engine.name);      // "Webkit"
-console.log($.ua.device);           // {vendor: "Motorola", model: "Xoom", type: "tablet"}
-console.log(parseInt($.ua.browser.version.split('.')[0], 10));  // 4
-```
-
-## Development
-
-Install dependencies
-
-```sh
-$ npm install jshint
-$ npm install mocha
-$ npm install uglify-js
-```
-
-Verify, test, & minify script
-
-```sh
-$ ./build/build.sh
-```
-
-## License
-
-Dual licensed under GPLv2 & MIT
-
-Copyright © 2012-2013 Faisalman <<fyzlman@gmail.com>>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of 
-this software and associated documentation files (the "Software"), to deal in 
-the Software without restriction, including without limitation the rights to use, 
-copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the 
-Software, and to permit persons to whom the Software is furnished to do so, 
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all 
-copies or substantial portions of the Software.
